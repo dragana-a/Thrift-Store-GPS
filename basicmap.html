@@ -11,8 +11,11 @@
     <div id="header">
     <h1>♻️ Shop Second Hand ♻️</h1>
     <p>Find all the thirft-shops in the area</p>
-    <button id="find_location">Find My Location</button>
-    
+    <div id="find_location">
+        <button id="findLocation">Find My Location</button>
+
+    </div>
+
     </div>
 
     <div id="maps"></div>
@@ -30,44 +33,141 @@
 
 <script>
     let map;  
-    let geocoder;
-
-async function initMap() { 
-  const { Map } = await google.maps.importLibrary("maps");
-
-
-  map = new Map(document.getElementById("maps"), {
-    center: { lat: 43.2387, lng: -79.8881 }, 
-    zoom: 12,
-    mapId: "410e5d7369ae59c7"
-  });
+    let geococate;
+    
+    async function initMap() { 
+        const { Map } = await google.maps.importLibrary("maps");
+        
+        
+        map = new Map(document.getElementById("maps"), {
+            center: { lat: 43.2387, lng: -79.8881 }, 
+            zoom: 12,
+            mapId: "410e5d7369ae59c7"
+        });
   
-  const mohawk_marker = new google.maps.marker.AdvancedMarkerElement({
+        const mohawk_marker = new google.maps.marker.AdvancedMarkerElement({
     position: { lat: 43.2387, lng: -79.881 },
     map,
     title: "Mohawk College"
-  });
+});
 
-/*
-    const value_village_marker = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: 43.2387, lng: -79.881 },
+document.getElementById("findLocation").addEventListener("click", addGeoLocateMarker());
+
+function addGeoLocateMarker(){
+    navigator.geolocation.getCurrentPosition(showPositionOnMap);
+}
+function showPositionOnMap(position){
+    let user_location = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat: position.coords.latitude, lng: position.coords.longitude },
+        map,
+        title: "Your Location"
+    });
+}
+
+ value_village_marker_1 = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat:43.226471 , lng: -79.761542 },
         map,
         title: "Value Village"
     });
     
+     value_village_marker_2 = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat:43.231400, lng:-79.857300 },
+        map,
+        title: "Value Village"
+    });
+    
+     value_village_marker_3 = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat:43.198985, lng:-80.019127 },
+        map,
+        title: "Value Village"
+    });
+    
+     value_village_marker_4 = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat:43.3325, lng:-79.8912 },
+        map,
+        title: "Value Village"
+    });
 
-    const talize_marker = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: 43.2387, lng: -79.881 },
+     value_village_marker_5 = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat:43.39438, lng:-79.79493 },
+        map,
+        title: "Value Village"
+    });
+    
+    
+     talize_marker = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat: 43.2094, lng:-79.8912 },
         map,
         title: "Talize"
     });
-
-    const salvation_army_marker = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: 43.2387, lng: -79.881 },
+    
+     talize_marker_2 = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat: 43.226424, lng: -79.881965 },
+        map,
+        title: "Talize"
+    });
+    
+     salvation_army_marker_1 = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat: 43.254062, lng: -79.861829 },
         map,
         title: "Salvation Army"
     });
-*/
+    
+     salvation_army_marker_2 = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat: 43.226424, lng: -79.881965 },
+        map,
+        title: "Salvation Army"
+    });
+    
+     salvation_army_marker_3 = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat: 43.235889, lng: -79.758229 },
+        map,
+        title: "Salvation Army"
+    });
+    let vvmarkers = [
+        value_village_marker_1,
+        value_village_marker_2,
+        value_village_marker_3,
+        value_village_marker_4,
+        value_village_marker_5
+    ];
+    let tsmarkers = [
+        talize_marker,
+        talize_marker_2
+    ];
+    let samarkers = [
+        salvation_army_marker_1,
+        salvation_army_marker_2,
+        salvation_army_marker_3
+    ];
+
+    let onlySA = document.getElementById("onlySA");
+    onlySA.addEventListener("click", function() {
+        vvmarkers.forEach(marker => marker.setMap(null));
+        tsmarkers.forEach(marker => marker.setMap(null));
+        samarkers.forEach(marker => marker.setMap(map));
+    });
+
+    let onlyTS = document.getElementById("onlyTS");
+    onlyTS.addEventListener("click", function() {
+        vvmarkers.forEach(marker => marker.setMap(null));
+        samarkers.forEach(marker => marker.setMap(null));
+        tsmarkers.forEach(marker => marker.setMap(map));
+    });
+
+    let onlyVV = document.getElementById("onlyVV");
+    onlyVV.addEventListener("click", function() {
+        tsmarkers.forEach(marker => marker.setMap(null));
+        samarkers.forEach(marker => marker.setMap(null));
+        vvmarkers.forEach(marker => marker.setMap(map));
+    });
+
+    let all = document.getElementById("all");   
+    all.addEventListener("click", function() {
+        vvmarkers.forEach(marker => marker.setMap(map));
+        tsmarkers.forEach(marker => marker.setMap(map));
+        samarkers.forEach(marker => marker.setMap(map));
+    });
 
     
   //geocoder = new google.maps.Geocoder();
