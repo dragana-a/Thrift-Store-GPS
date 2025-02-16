@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation for a2</title>
+</head>
+<body>
+
+    <button id="find_location">Find Location</button>
+
+        <p>latitude</p> <span id="latitude"></span>
+        <p>longitude</p> <span id="longitude"></span>
+
+        <p><span id="problem"></span></p>
+</body>
+<script>
+    function showPosition(position) {
+        console.log(position);
+        let latitude = document.getElementById("latitude");
+        let longitude = document.getElementById("longitude");
+        
+        latitude.innerHTML = position.coords.latitude;
+        longitude.innerHTML = position.coords.longitude;
+    }
+
+    function showError(error) {
+        console.log(error);
+
+        let problem = document.getElementById("problem");
+
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                problem.innerHTML = "User denied the request for Geolocation."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                problem.innerHTML = "Location information is unavailable."
+                break;
+            case error.TIMEOUT:
+                problem.innerHTML = "The request to get user location timed out."
+                break;
+            case error.UNKNOWN_ERROR:
+                problem.innerHTML = "An unknown error occurred."
+                break;
+        }
+    }
+
+    let find_location = document.getElementById("find_location");
+    find_location.addEventListener("click", function() {
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    });
+   
+</script> 
+        </html>
