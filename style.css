@@ -1,0 +1,42 @@
+#maps {
+    height: 400px;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+p {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#header {
+    background-color: lightgreen;
+    padding: 10px;
+    text-align: center;
+}
+button {
+    background-color: rgb(74, 255, 74);
+    text-align: center;
+    color: white;
+    padding: 10px;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    align-items: center;
+    
+}
+button:hover, button:active {
+    background-color: rgb(27, 164, 27);
+    border: none;
+}
+
+#btns{
+    display: flex;
+    justify-content: center;
+}
