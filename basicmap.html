@@ -229,9 +229,6 @@ function codeAddress(){
 
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == 'OK') {
-            document.getElementById("coords").innerText = 
-            "coords: " + results[0].geometry.location.lat() + ", " + results[0].geometry.location.lng();
-            
             map.setCenter(results[0].geometry.location);
             let marker = new google.maps.marker.AdvancedMarkerElement({
                 map: map,
