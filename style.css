@@ -56,7 +56,7 @@ button:hover, button:active {
     border: none;
 }
 
-#form input[type="submit"]:hover, #form input[type="submit"]:active {
+#form input[id="submit"]:hover, #form input[id="submit"]:active {
     background-color: rgb(25, 119, 25);
     border: none;
 }

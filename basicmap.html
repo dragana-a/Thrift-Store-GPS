@@ -24,6 +24,7 @@
     
     <div class="text-center">
         <button id="findLocation">Find My Location</button>
+        <div id="coords"></div>
     </div>
     <div id="form">
         <br>
@@ -36,7 +37,7 @@
             <br><br>
             <label for="province">Province:</label>
                 <select id="province" name="province">
-                <option value="on">Ontario</option>
+                <option value="on">ON</option>
                 <option value="ab">Alberta</option>
                 <option value="mb">Manitoba</option>
                 <option value="bc">British Columbia</option>
@@ -52,7 +53,8 @@
                 </select>
                 <br><br>
             <input type="text" name="Postal Code" id="postalCode" placeholder="Enter your postal code">
-            <input type="submit" value="Submit">
+            <button type="button" id="submit">Submit</button>
+        </form>
             <br><br>
     </div>
 
@@ -63,7 +65,7 @@
 
 <script>
     let map;  
-    let geococate;
+    let geocoder;
     
     async function initMap() { 
         const { Map } = await google.maps.importLibrary("maps");
@@ -208,10 +210,41 @@ function showPositionOnMap(position){
         tsmarkers.forEach(marker => marker.setMap(map));
         samarkers.forEach(marker => marker.setMap(map));
     });
-
-    
-  //geocoder = new google.maps.Geocoder();
 }
+const userInputLocation= document.createElement('div');
+userInputLocation.innerHTML = `
+    <img src="https://maps.google.com/mapfiles/kml/paddle/purple-stars.png" 
+         style="width: 40px; height: 40px;">
+`;
+
+function codeAddress(){
+    let streetAddress = document.getElementById("streetAddress").value;
+    let city = document.getElementById("city").value;
+    let province = document.getElementById("province").value;
+    let postalCode = document.getElementById("postalCode").value;
+
+    let address = streetAddress + ", " + city + ", " + province + ", " + postalCode;
+    geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == 'OK') {
+            document.getElementById("coords").innerText = 
+            "coords: " + results[0].geometry.location.lat() + ", " + results[0].geometry.location.lng();
+            
+            map.setCenter(results[0].geometry.location);
+            let marker = new google.maps.marker.AdvancedMarkerElement({
+                map: map,
+                position: results[0].geometry.location,
+                content: userInputLocation
+            });
+        } else {
+            alert('Geocode was not successful due to: ' + status);
+        }
+    });
+}
+
+let geocode = document.getElementById("submit");
+geocode.addEventListener("click", codeAddress);
 
 </script> 
 
