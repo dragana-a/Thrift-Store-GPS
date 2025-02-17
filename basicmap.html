@@ -35,6 +35,7 @@
             <input type="text" name="Street Address" id="streetAddress" placeholder="Enter your street address">
             <input type="text" name="City" id="city" placeholder="Enter your city">
             <br><br>
+            <div class="text-center">
             <label for="province">Province:</label>
                 <select id="province" name="province">
                 <option value="on">ON</option>
@@ -51,10 +52,14 @@
                 <option value="nu">NU</option>
                 <option value="yt">YT</option>
                 </select>
+            </div>
                 <br>
-            <input type="text" name="Postal Code" id="postalCode" placeholder="Enter your postal code">
-            
+                <input type="text" name="Postal Code" id="postalCode" placeholder="Enter your postal code">
+                <input type="text" name="Name" id="name" placeholder="Enter the location name">
+                <br>
+                <div class="text-center">
             <button type="button" id="submit">Submit</button>
+        </div>
         </form>
             <br><br>
     </div>
@@ -223,6 +228,7 @@ function codeAddress(){
     let city = document.getElementById("city").value;
     let province = document.getElementById("province").value;
     let postalCode = document.getElementById("postalCode").value;
+    let title = document.getElementById("desc").value;
 
     let address = streetAddress + ", " + city + ", " + province + ", " + postalCode;
     geocoder = new google.maps.Geocoder();
@@ -233,7 +239,8 @@ function codeAddress(){
             let marker = new google.maps.marker.AdvancedMarkerElement({
                 map: map,
                 position: results[0].geometry.location,
-                content: userInputLocation
+                content: userInputLocation,
+                title: title
             });
         } else {
             alert('Geocode was not successful due to: ' + status);

@@ -54,6 +54,8 @@ button:hover, button:active {
 #submit{
     padding: 5px;
     background-color: rgb(27, 164, 27);
+    padding-left: 50px;
+    padding-right: 50px;
     border: none;
 }
 #submit:hover, #submit:active {
