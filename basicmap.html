@@ -30,36 +30,35 @@
         <br>
         <form action="index.php" method="post">
             <br>
-            <h5>Add An Address</h5>
+            <h5 class="addressInput">Add An Address</h5>
             <br>
             <input type="text" name="Street Address" id="streetAddress" placeholder="Enter your street address">
             <input type="text" name="City" id="city" placeholder="Enter your city">
             <br><br>
             <div class="text-center">
-            <label for="province">Province:</label>
-                <select id="province" name="province">
-                <option value="on">ON</option>
-                <option value="ab">AB</option>
-                <option value="mb">MB</option>
-                <option value="bc">BC</option>
-                <option value="nb">NB</option>
-                <option value="nl">NL</option>
-                <option value="ns">NS</option>
-                <option value="pei">PEI</option>
-                <option value="qc">QC</option>
-                <option value="sk">SK</option>
-                <option value="nt">NT</option>
-                <option value="nu">NU</option>
-                <option value="yt">YT</option>
-                </select>
+                <label for="province">Province:</label>
+                    <select id="province" name="province">
+                        <option value="on">ON</option>
+                        <option value="ab">AB</option>
+                        <option value="mb">MB</option>
+                        <option value="bc">BC</option>
+                        <option value="nb">NB</option>
+                        <option value="nl">NL</option>
+                        <option value="ns">NS</option>
+                        <option value="pei">PEI</option>
+                        <option value="qc">QC</option>
+                        <option value="sk">SK</option>
+                        <option value="nt">NT</option>
+                        <option value="nu">NU</option>
+                        <option value="yt">YT</option>
+                    </select>
             </div>
                 <br>
                 <input type="text" name="Postal Code" id="postalCode" placeholder="Enter your postal code">
                 <input type="text" name="Name" id="name" placeholder="Enter the location name">
-                <br>
                 <div class="text-center">
-            <button type="button" id="submit">Submit</button>
-        </div>
+                    <button type="button" id="submit">Submit</button>
+                </div>
         </form>
             <br><br>
     </div>
@@ -217,6 +216,7 @@ function showPositionOnMap(position){
         samarkers.forEach(marker => marker.setMap(map));
     });
 }
+
 const userInputLocation= document.createElement('div');
 userInputLocation.innerHTML = `
     <img src="https://maps.google.com/mapfiles/kml/paddle/purple-stars.png" 
