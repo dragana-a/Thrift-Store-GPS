@@ -51,12 +51,13 @@ button:hover, button:active {
 #form input {
     margin-right: 5px;
 }
-#form input[type="submit"] {
-    background-color: rgb(29, 199, 29);
+#submit{
+    padding: 5px;
+    background-color: rgb(27, 164, 27);
     border: none;
 }
-
-#form input[id="submit"]:hover, #form input[id="submit"]:active {
+#submit:hover, #submit:active {
     background-color: rgb(25, 119, 25);
     border: none;
 }
+
