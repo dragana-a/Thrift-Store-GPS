@@ -228,7 +228,7 @@ function codeAddress(){
     let city = document.getElementById("city").value;
     let province = document.getElementById("province").value;
     let postalCode = document.getElementById("postalCode").value;
-    let title = document.getElementById("desc").value;
+    let title = document.getElementById("name").value;
 
     let address = streetAddress + ", " + city + ", " + province + ", " + postalCode;
     geocoder = new google.maps.Geocoder();
