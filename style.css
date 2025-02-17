@@ -24,21 +24,6 @@ p {
     text-align: center;
 }
 
-button #find_location{
-    background-color: rgb(7, 89, 7);
-    text-align: center;
-    color: white;
-    padding: 10px;
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: none;
-}
-button #find_location:hover, button #find_location:active {
-    background-color: rgb(27, 164, 27);
-    border: none;
-}
 button {
     background-color: rgb(58, 206, 58);
     text-align: center;
