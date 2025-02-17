@@ -11,19 +11,19 @@
     <div id="header">
     <h1>♻️ Shop Second Hand ♻️</h1>
     <p>Find all the thirft-shops in the area</p>
-    <div id="find_location">
-        <button id="findLocation">Find My Location</button>
-
+    <p>"Thrifting is important because it helps reduce waste by reusing items that would otherwise go to landfills, saves money by providing affordable options, supports local communities by funding charities through thrift store profits, and allows people to express their unique style through a wider variety of unique finds; essentially, it's a sustainable and budget-friendly way to shop while contributing positively to the environment and society. "</p>
+        <div id="find_location">
+            <button id="onlyVV">Only Value Village</button>
+            <button id="onlyTS">Only Talize</button>
+            <button id="onlySA">Only Salvation Army</button>
+            <button id="all">Display All</button>
+        </div>
     </div>
-
-    </div>
-
+    
     <div id="maps"></div>
+    
     <div id="btns">
-        <button id="onlyVV">Only Value Village</button>
-        <button id="onlyTS">Only Talize</button>
-        <button id="onlySA">Only Salvation Army</button>
-        <button id="all">Display All</button>
+        <button id="findLocation">Find My Location</button>
     </div>
 
 </body>
@@ -41,7 +41,7 @@
         
         map = new Map(document.getElementById("maps"), {
             center: { lat: 43.2387, lng: -79.8881 }, 
-            zoom: 12,
+            zoom: 11,
             mapId: "410e5d7369ae59c7"
         });
   
@@ -50,6 +50,12 @@
     map,
     title: "Mohawk College"
 });
+
+const customMarker = document.createElement('div');
+customMarker.innerHTML = `
+    <img src="https://maps.google.com/mapfiles/kml/paddle/pink-stars.png" 
+         style="width: 40px; height: 40px;">
+`;
 
 document.getElementById("findLocation").addEventListener("click", addGeoLocateMarker());
 
@@ -60,7 +66,9 @@ function showPositionOnMap(position){
     let user_location = new google.maps.marker.AdvancedMarkerElement({
         position: { lat: position.coords.latitude, lng: position.coords.longitude },
         map,
-        title: "Your Location"
+        title: "Your Location",
+        content: customMarker
+
     });
 }
 
