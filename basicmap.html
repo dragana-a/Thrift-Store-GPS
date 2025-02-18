@@ -24,7 +24,13 @@
     
     <div class="text-center">
         <button id="findLocation">Find My Location</button>
-        <div id="coords"></div>
+    
+        <div id="getDirections">
+            <h5>Get Directions</h5>
+            <button id="setStart">Set Starting Point</button>
+            <button id="setEnd">Set Ending Point</button>
+            <button id="getDirections">Get Directions</button>
+        </div>
     </div>
     <div id="form">
         <br>
@@ -320,6 +326,29 @@ let contentString3 = `
         <p>Shop thrift & donate secondhand goods at your local Salvation Army Thrift Store, where we care for our communities & the planet we share.</p>
     </div>
 `;
+
+
+ derectionService = new google.maps.DirectionsService();
+ directionRenderer = new google.maps.DirectionsRenderer();
+
+ DirectionsRenderer.setMap(map);
+
+    let start = document.getElementById("setStart");
+    let end = document.getElementById("setEnd");
+    let getDirections = document.getElementById("getDirections");
+
+    const request = {
+        origin: start,
+        destination: end,
+        travelMode: "DRIVING"
+    };
+
+directionService.route(request, function(result, status) {
+    if(status == "OK") {
+        directionRenderer.setDirections(result);
+    }
+});
+
 </script> 
 
 </html>
