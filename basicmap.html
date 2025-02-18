@@ -52,10 +52,16 @@
                         <option value="nu">NU</option>
                         <option value="yt">YT</option>
                     </select>
+                    <label for="name">Name:</label>
+                    <select id="name" name="name">
+                        <option value="vv">Value Village</option>
+                        <option value="ts">Talize</option>
+                        <option value="sa">Salvation Army</option>
+                    </select>
+
             </div>
                 <br>
                 <input type="text" name="Postal Code" id="postalCode" placeholder="Enter your postal code">
-                <input type="text" name="Name" id="name" placeholder="Enter the location name">
                 <div class="text-center">
                     <button type="button" id="submit">Submit</button>
                 </div>
@@ -228,11 +234,7 @@ function showPositionOnMap(position){
     });
 }
 
-const userInputLocation= document.createElement('div');
-userInputLocation.innerHTML = `
-    <img src="https://maps.google.com/mapfiles/kml/paddle/purple-stars.png" 
-         style="width: 40px; height: 40px;">
-`;
+let markers = [];
 
 function codeAddress(){
     let streetAddress = document.getElementById("streetAddress").value;
@@ -240,19 +242,25 @@ function codeAddress(){
     let province = document.getElementById("province").value;
     let postalCode = document.getElementById("postalCode").value;
     let title = document.getElementById("name").value;
-
+    
     let address = streetAddress + ", " + city + ", " + province + ", " + postalCode;
     geocoder = new google.maps.Geocoder();
-
+    
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == 'OK') {
-            map.setCenter(results[0].geometry.location);
+            const userInputLocation= document.createElement('div');
+            userInputLocation.innerHTML = `
+                <img src="https://maps.google.com/mapfiles/kml/paddle/purple-stars.png" 
+                     style="width: 40px; height: 40px;">
+            `;
             let marker = new google.maps.marker.AdvancedMarkerElement({
-                map: map,
                 position: results[0].geometry.location,
                 content: userInputLocation,
                 title: title
             });
+            marker.setMap(map);
+            markers.push(marker);
+
             makeInfoMarker(marker, "<h6>" + title + "</h6>", address);
         } else {
             alert('Geocode was not successful due to: ' + status);
@@ -272,6 +280,7 @@ function makeInfoMarker(marker, content, address) {
         infoWindow.open(map, marker);
         shouldFocus = false;
     });
+    
 }
 
 let contentString1 = `
