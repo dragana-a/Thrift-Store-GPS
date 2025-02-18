@@ -116,30 +116,35 @@ function showPositionOnMap(position){
         map,
         title: "Value Village"
     });
+    makeInfoMarker(value_village_marker_1, contentString1,"114 Irene Avenue, Stoney Creek ON L8G 2B5 Stoney Creek Ontario Canada");
     
      value_village_marker_2 = new google.maps.marker.AdvancedMarkerElement({
         position: { lat:43.231400, lng:-79.857300 },
         map,
         title: "Value Village"
     });
+    makeInfoMarker(value_village_marker_2, contentString1, "530 Fennell Avenue East, Hamilton ON L8V 1S9 Hamilton Ontario Canada");
     
      value_village_marker_3 = new google.maps.marker.AdvancedMarkerElement({
         position: { lat:43.198985, lng:-80.019127 },
         map,
         title: "Value Village"
     });
+    makeInfoMarker(value_village_marker_3, contentString1, "100 Portia Drive, Ancaster ON L0R Ancaster Ontario Canada");
     
      value_village_marker_4 = new google.maps.marker.AdvancedMarkerElement({
         position: { lat:43.3325, lng:-79.8912 },
         map,
         title: "Value Village"
     });
+    makeInfoMarker(value_village_marker_4, contentString1, "63 Main Street South, Waterdown ON L8B Waterdown Ontario Canada");
 
      value_village_marker_5 = new google.maps.marker.AdvancedMarkerElement({
         position: { lat:43.39438, lng:-79.79493 },
         map,
         title: "Value Village"
     });
+    makeInfoMarker(value_village_marker_5, contentString1, "2030 Appleby Line, Burlington ON L7L 6M6 Burlington Ontario Canada");
     
     
      talize_marker = new google.maps.marker.AdvancedMarkerElement({
@@ -147,30 +152,36 @@ function showPositionOnMap(position){
         map,
         title: "Talize"
     });
+    makeInfoMarker(talize_marker, contentString2,"1400 Upper James St, Hamilton, ON L9B 1K3");
     
      talize_marker_2 = new google.maps.marker.AdvancedMarkerElement({
         position: { lat: 43.226424, lng: -79.881965 },
         map,
         title: "Talize"
     });
+    makeInfoMarker(talize_marker_2, contentString2,"1144 Courtland Ave E, Kitchener, ON N2C 1N2");
     
      salvation_army_marker_1 = new google.maps.marker.AdvancedMarkerElement({
         position: { lat: 43.254062, lng: -79.861829 },
         map,
         title: "Salvation Army"
     });
+    makeInfoMarker(salvation_army_marker_1, contentString3,"250 King St E, Hamilton, ON L8N 1B7");
     
      salvation_army_marker_2 = new google.maps.marker.AdvancedMarkerElement({
         position: { lat: 43.226424, lng: -79.881965 },
         map,
         title: "Salvation Army"
     });
+    makeInfoMarker(salvation_army_marker_2, contentString3,"879 Upper James St, Hamilton, ON L9C 3A3");
     
      salvation_army_marker_3 = new google.maps.marker.AdvancedMarkerElement({
         position: { lat: 43.235889, lng: -79.758229 },
         map,
         title: "Salvation Army"
     });
+    makeInfoMarker(salvation_army_marker_3, contentString3,"2500 Barton St E, Hamilton, ON L8E 3K8");
+
     let vvmarkers = [
         value_village_marker_1,
         value_village_marker_2,
@@ -242,6 +253,7 @@ function codeAddress(){
                 content: userInputLocation,
                 title: title
             });
+            makeInfoMarker(marker, "<h6>" + title + "</h6>", address);
         } else {
             alert('Geocode was not successful due to: ' + status);
         }
@@ -251,6 +263,41 @@ function codeAddress(){
 let geocode = document.getElementById("submit");
 geocode.addEventListener("click", codeAddress);
 
+function makeInfoMarker(marker, content, address) {
+    let infoWindow = new google.maps.InfoWindow({
+        content: content + address
+    });
+
+    marker.addListener("click", () => {
+        infoWindow.open(map, marker);
+        shouldFocus = false;
+    });
+}
+
+let contentString1 = `
+    <div>
+        <h6>Value Village</h6>
+        <p>Savers Value Village Inc. is a publicly held, for-profit thrift store retailer headquartered in Bellevue, Washington, United States, offering second hand merchandise, with supermajority ownership by private equity firm Ares Management</p>
+    </div>
+`;
+
+let contentString2 = `
+    <div>
+        <h6>Talize</h6>
+        <p>Talize is a proudly Canadian owned and operated national 
+            for-profit retailer offering quality resale apparel and 
+            housewares at unbeatable prices. As Canada’s newest and 
+            most unique shopping experience we offer new, like-new 
+            and vintage items all under one roof.</p>
+    </div>
+`;
+
+let contentString3 = `
+    <div>
+        <h6>Salvation Army</h6>
+        <p>Shop thrift & donate secondhand goods at your local Salvation Army Thrift Store, where we care for our communities & the planet we share.</p>
+    </div>
+`;
 </script> 
 
 </html>
