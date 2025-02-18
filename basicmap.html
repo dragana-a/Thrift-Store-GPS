@@ -23,13 +23,11 @@
     <div id="maps"></div>
     
     <div class="text-center">
+        
+        <h5>Get Directions</h5>
+         <h7><strong>How to: </strong>Set starting point via allowing your current location, then click on the markers link to set destination, finally click the 'get directions' button to display the route!</h7>
         <button id="findLocation">Find My Location</button>
-    
-        <div id="getDirections">
-            <h5>Get Directions</h5>
-            <button id="setStart" onclick="setStart()">Set Starting Point</button>
-            <button id="setEnd" onclick="setEnd()">Set Ending Point</button>
-            <button id="getDirections" onclick="getDirections()">Get Directions</button>
+        <button id="getDirections">Get Directions</button>
         </div>
     </div>
     <div id="form">
@@ -83,6 +81,8 @@
 <script>
     let map;  
     let geocoder;
+    let start;
+    let end; 
     
     async function initMap() { 
         const { Map } = await google.maps.importLibrary("maps");
@@ -102,8 +102,8 @@
 
 const customMarker = document.createElement('div');
 customMarker.innerHTML = `
-    <img src="https://maps.google.com/mapfiles/kml/paddle/pink-stars.png" 
-         style="width: 40px; height: 40px;">
+<img src="https://maps.google.com/mapfiles/kml/paddle/pink-stars.png" 
+style="width: 40px; height: 40px;">
 `;
 let find_location = document.getElementById("findLocation");
     find_location.addEventListener("click", function() {
@@ -113,86 +113,79 @@ let find_location = document.getElementById("findLocation");
             alert("Geolocation is not supported by this browser.");
         }
     });
+    
+    let start;
 
-function showPositionOnMap(position){
-    let user_location = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: position.coords.latitude, lng: position.coords.longitude },
-        map,
-        title: "Your Location",
-        content: customMarker
+    function showPositionOnMap(position){
+        start = { lat: position.coords.latitude, lng: position.coords.longitude };
+        let user_location = new google.maps.marker.AdvancedMarkerElement({
+            position: start,
+            map,
+            title: "Your Location",
+            content: customMarker
+        });
+    }
+    
+    
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
+
+
+    let getDirections = document.getElementById("getDirections");
+
+    getDirections.addEventListener("click", () => calcDirections());
+    
+    function calcDirections() {
+        if (!start) {
+        alert("Please set your starting location first by clicking 'Find My Location'.");
+        return;
+        }
+        if (!end) {
+            alert("Click a marker's link to set your destination.");
+            return;
+        }
+
+        const request = {
+            origin: start,
+            destination: end,
+            travelMode: "DRIVING",
+        };
+    
+        directionsService.route(request, (result, status) => {
+            if (status === "OK") {
+                directionsRenderer.setDirections(result);
+            }
+        });
+    }
+
+// Function to create a marker and attach an info window
+function createMarker(lat, lng, title, infoContent, address, map) {
+    const marker = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat: lat, lng: lng },
+        map: map,
+        title: title,
     });
+    link = `&nbsp;&nbsp;<a href="#" onclick="setDestination(${lat}, ${lng}); return false;">Set Destination</a>`
+    makeInfoMarker(marker, infoContent, address, link);
+    return marker;
 }
 
- value_village_marker_1 = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat:43.226471 , lng: -79.761542 },
-        map,
-        title: "Value Village"
-    });
-    makeInfoMarker(value_village_marker_1, contentString1,"114 Irene Avenue, Stoney Creek ON L8G 2B5 Stoney Creek Ontario Canada");
-    
-     value_village_marker_2 = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat:43.231400, lng:-79.857300 },
-        map,
-        title: "Value Village"
-    });
-    makeInfoMarker(value_village_marker_2, contentString1, "530 Fennell Avenue East, Hamilton ON L8V 1S9 Hamilton Ontario Canada");
-    
-     value_village_marker_3 = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat:43.198985, lng:-80.019127 },
-        map,
-        title: "Value Village"
-    });
-    makeInfoMarker(value_village_marker_3, contentString1, "100 Portia Drive, Ancaster ON L0R Ancaster Ontario Canada");
-    
-     value_village_marker_4 = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat:43.3325, lng:-79.8912 },
-        map,
-        title: "Value Village"
-    });
-    makeInfoMarker(value_village_marker_4, contentString1, "63 Main Street South, Waterdown ON L8B Waterdown Ontario Canada");
+// Value Village Markers
+let value_village_marker_1 = createMarker(43.226471, -79.761542, "Value Village", contentString1, "114 Irene Avenue, Stoney Creek ON L8G 2B5 Stoney Creek Ontario Canada", map);
+let value_village_marker_2 = createMarker(43.231400, -79.857300, "Value Village", contentString1, "530 Fennell Avenue East, Hamilton ON L8V 1S9 Hamilton Ontario Canada", map);
+let value_village_marker_3 = createMarker(43.198985, -80.019127, "Value Village", contentString1, "100 Portia Drive, Ancaster ON L0R Ancaster Ontario Canada", map);
+let value_village_marker_4 = createMarker(43.3325, -79.8912, "Value Village", contentString1, "63 Main Street South, Waterdown ON L8B Waterdown Ontario Canada", map);
+let value_village_marker_5 = createMarker(43.39438, -79.79493, "Value Village", contentString1, "2030 Appleby Line, Burlington ON L7L 6M6 Burlington Ontario Canada", map);
 
-     value_village_marker_5 = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat:43.39438, lng:-79.79493 },
-        map,
-        title: "Value Village"
-    });
-    makeInfoMarker(value_village_marker_5, contentString1, "2030 Appleby Line, Burlington ON L7L 6M6 Burlington Ontario Canada");
-    
-    
-     talize_marker = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: 43.2094, lng:-79.8912 },
-        map,
-        title: "Talize"
-    });
-    makeInfoMarker(talize_marker, contentString2,"1400 Upper James St, Hamilton, ON L9B 1K3");
-    
-     talize_marker_2 = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: 43.226424, lng: -79.881965 },
-        map,
-        title: "Talize"
-    });
-    makeInfoMarker(talize_marker_2, contentString2,"1144 Courtland Ave E, Kitchener, ON N2C 1N2");
-    
-     salvation_army_marker_1 = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: 43.254062, lng: -79.861829 },
-        map,
-        title: "Salvation Army"
-    });
-    makeInfoMarker(salvation_army_marker_1, contentString3,"250 King St E, Hamilton, ON L8N 1B7");
-    
-     salvation_army_marker_2 = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: 43.226424, lng: -79.881965 },
-        map,
-        title: "Salvation Army"
-    });
-    makeInfoMarker(salvation_army_marker_2, contentString3,"879 Upper James St, Hamilton, ON L9C 3A3");
-    
-     salvation_army_marker_3 = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: 43.235889, lng: -79.758229 },
-        map,
-        title: "Salvation Army"
-    });
-    makeInfoMarker(salvation_army_marker_3, contentString3,"2500 Barton St E, Hamilton, ON L8E 3K8");
+// Talize Markers
+let talize_marker_1 = createMarker(43.2094, -79.8912, "Talize", contentString2, "1400 Upper James St, Hamilton, ON L9B 1K3", map);
+let talize_marker_2 = createMarker(43.226424, -79.881965, "Talize", contentString2, "1144 Courtland Ave E, Kitchener, ON N2C 1N2", map);
+
+// Salvation Army Markers
+let salvation_army_marker_1 = createMarker(43.254062, -79.861829, "Salvation Army", contentString3, "250 King St E, Hamilton, ON L8N 1B7", map);
+let salvation_army_marker_2 = createMarker(43.226424, -79.881965, "Salvation Army", contentString3, "879 Upper James St, Hamilton, ON L9C 3A3", map);
+let salvation_army_marker_3 = createMarker(43.235889, -79.758229, "Salvation Army", contentString3, "2500 Barton St E, Hamilton, ON L8E 3K8", map);
 
     let vvmarkers = [
         value_village_marker_1,
@@ -202,7 +195,7 @@ function showPositionOnMap(position){
         value_village_marker_5
     ];
     let tsmarkers = [
-        talize_marker,
+        talize_marker_1,
         talize_marker_2
     ];
     let samarkers = [
@@ -248,8 +241,9 @@ function showPositionOnMap(position){
                         samarkers.push(marker);
                         break;
                             }
-                            
-                            makeInfoMarker(marker, "<h6>" + title + "</h6>", address);
+                            link = `&nbsp;&nbsp;<a href="#" onclick="setDestination(${results[0].geometry.location.lat()}, ${results[0].geometry.location.lng()}); return false;">Set Destination</a>`
+
+                            makeInfoMarker(marker, "<h6>" + title + "</h6>", address, link);
                         } else {
                             alert('Geocode was not successful due to: ' + status);
                         }
@@ -290,9 +284,9 @@ function showPositionOnMap(position){
                     });
                 }
 
-function makeInfoMarker(marker, content, address) {
+function makeInfoMarker(marker, content, address, link) {
     let infoWindow = new google.maps.InfoWindow({
-        content: content + address
+        content: content + address + link
     });
 
     marker.addListener("click", () => {
@@ -327,33 +321,9 @@ let contentString3 = `
     </div>
 `;
 
-directionsService = new google.maps.DirectionsService();
-directionsRenderer = new google.maps.DirectionsRenderer();
-directionsRenderer.setMap(map);
-
-let start = null;
-let end = null;
-
-function setStart() {
-
-}
-function setEnd() {
-}
-
-function getDirections() {
-    const request = {
-        origin: start,
-        destination: end,
-        travelMode: "DRIVING", 
-    };
-    directionsService.route(request, (result, status) => {
-        if (status == "OK") {
-            directionsRenderer.setDirections(result);
-        }
-    });
-}
-
-
+function setDestination(lat, lng) {
+        end = new google.maps.LatLng(lat, lng);
+    }
 </script> 
 
 </html>
