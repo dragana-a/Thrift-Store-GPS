@@ -18,9 +18,9 @@
         //create custom marker
         const customMarker = document.createElement('div');
         customMarker.innerHTML = `
-        <img src="https://maps.google.com/mapfiles/kml/paddle/pink-stars.png" 
-        style="width: 40px; height: 40px;">
-        `;
+            <img src="https://maps.google.com/mapfiles/kml/paddle/pink-stars.png" 
+            style="width: 40px; height: 40px;">
+            `;
         let find_location = document.getElementById("findLocation");
             find_location.addEventListener("click", function() {
                 if(navigator.geolocation) {
