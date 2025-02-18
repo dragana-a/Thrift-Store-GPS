@@ -1,60 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geolocation for a2</title>
+    <title>MWD-Assignment 2</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="scripts.js">
+        
+    </script>
 </head>
 <body>
-
-    <button id="find_location">Find Location</button>
-
-        <p>latitude</p> <span id="latitude"></span>
-        <p>longitude</p> <span id="longitude"></span>
-
-        <p><span id="problem"></span></p>
-</body>
-<script>
-    function showPosition(position) {
-        console.log(position);
-        let latitude = document.getElementById("latitude");
-        let longitude = document.getElementById("longitude");
+    <div id="header">
+    <h1 class="resp-head">♻️Shop Second Hand♻️</h1>
+    <h5>Find all the thirft-shops in the area</h5>
+    <p>"Thrifting is important because it helps reduce waste by reusing items that would otherwise go to landfills, saves money by providing affordable options, supports local communities by funding charities through thrift store profits, and allows people to express their unique style through a wider variety of unique finds; essentially, it's a sustainable and budget-friendly way to shop while contributing positively to the environment and society. "</p>
+        <div id="btns">
+            <button id="onlyVV">Only Value Village</button>
+            <button id="onlyTS">Only Talize</button>
+            <button id="onlySA">Only Salvation Army</button>
+            <button id="all">Display All</button>
+        </div>
+    </div>
+    
+    <div id="maps"></div>
+    
+    <div class="text-center">
         
-        latitude.innerHTML = position.coords.latitude;
-        longitude.innerHTML = position.coords.longitude;
-    }
+        <h5>Get Directions</h5>
+         <h7><strong>How to: </strong>Set starting point via allowing your current location, then click on the markers link to set destination, finally click the 'get directions' button to display the route!</h7>
+         <br>
+        <button id="findLocation">Find My Location</button>
+        <button id="getDirections">Get Directions</button>
+        </div>
+    </div>
+    <div id="form">
+        <br>
+        <form class="text-center" method="post">
+            <br>
+            <h5 class="addressInput">Add An Address</h5>
+            <br>
+            <input type="text" name="Street Address" id="streetAddress" placeholder="Enter your street address">
+            <input type="text" name="City" id="city" placeholder="Enter your city">
+            <br><br>
+            <div class="text-center">
+                <label for="province">Province:</label>
+                    <select id="province" name="province">
+                        <option value="on">ON</option>
+                        <option value="ab">AB</option>
+                        <option value="mb">MB</option>
+                        <option value="bc">BC</option>
+                        <option value="nb">NB</option>
+                        <option value="nl">NL</option>
+                        <option value="ns">NS</option>
+                        <option value="pei">PEI</option>
+                        <option value="qc">QC</option>
+                        <option value="sk">SK</option>
+                        <option value="nt">NT</option>
+                        <option value="nu">NU</option>
+                        <option value="yt">YT</option>
+                    </select>
+                    <label for="name">Name:</label>
+                    <select id="name" name="name">
+                        <option value="Value Village">Value Village</option>
+                        <option value="Talize">Talize</option>
+                        <option value="Salvation Army">Salvation Army</option>
+                    </select>
 
-    function showError(error) {
-        console.log(error);
+            </div>
+                <br>
+                <input type="text" name="Postal Code" id="postalCode" placeholder="Enter your postal code">
+                <div class="text-center">
+                    <button type="button" id="submit">Submit</button>
+                </div>
+        </form>
+            <br><br>
+    </div>
 
-        let problem = document.getElementById("problem");
-
-        switch(error.code) {
-            case error.PERMISSION_DENIED:
-                problem.innerHTML = "User denied the request for Geolocation."
-                break;
-            case error.POSITION_UNAVAILABLE:
-                problem.innerHTML = "Location information is unavailable."
-                break;
-            case error.TIMEOUT:
-                problem.innerHTML = "The request to get user location timed out."
-                break;
-            case error.UNKNOWN_ERROR:
-                problem.innerHTML = "An unknown error occurred."
-                break;
-        }
-    }
-
-    let find_location = document.getElementById("find_location");
-    find_location.addEventListener("click", function() {
-        if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition, showError);
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
-    });
-   
-</script> 
-        </html>
+</body>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8uDqFOpu7IyMmBHJFQtWLjU3kivRTy_o&loading=async&callback=initMap&libraries=marker">
+</script>
+</html>

@@ -1,85 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MWD-Assignment 2</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="header">
-    <h1 class="resp-head">♻️Shop Second Hand♻️</h1>
-    <h5>Find all the thirft-shops in the area</h5>
-    <p>"Thrifting is important because it helps reduce waste by reusing items that would otherwise go to landfills, saves money by providing affordable options, supports local communities by funding charities through thrift store profits, and allows people to express their unique style through a wider variety of unique finds; essentially, it's a sustainable and budget-friendly way to shop while contributing positively to the environment and society. "</p>
-        <div id="btns">
-            <button id="onlyVV">Only Value Village</button>
-            <button id="onlyTS">Only Talize</button>
-            <button id="onlySA">Only Salvation Army</button>
-            <button id="all">Display All</button>
-        </div>
-    </div>
-    
-    <div id="maps"></div>
-    
-    <div class="text-center">
-        
-        <h5>Get Directions</h5>
-         <h7><strong>How to: </strong>Set starting point via allowing your current location, then click on the markers link to set destination, finally click the 'get directions' button to display the route!</h7>
-         <br>
-        <button id="findLocation">Find My Location</button>
-        <button id="getDirections">Get Directions</button>
-        </div>
-    </div>
-    <div id="form">
-        <br>
-        <form class="text-center" method="post">
-            <br>
-            <h5 class="addressInput">Add An Address</h5>
-            <br>
-            <input type="text" name="Street Address" id="streetAddress" placeholder="Enter your street address">
-            <input type="text" name="City" id="city" placeholder="Enter your city">
-            <br><br>
-            <div class="text-center">
-                <label for="province">Province:</label>
-                    <select id="province" name="province">
-                        <option value="on">ON</option>
-                        <option value="ab">AB</option>
-                        <option value="mb">MB</option>
-                        <option value="bc">BC</option>
-                        <option value="nb">NB</option>
-                        <option value="nl">NL</option>
-                        <option value="ns">NS</option>
-                        <option value="pei">PEI</option>
-                        <option value="qc">QC</option>
-                        <option value="sk">SK</option>
-                        <option value="nt">NT</option>
-                        <option value="nu">NU</option>
-                        <option value="yt">YT</option>
-                    </select>
-                    <label for="name">Name:</label>
-                    <select id="name" name="name">
-                        <option value="Value Village">Value Village</option>
-                        <option value="Talize">Talize</option>
-                        <option value="Salvation Army">Salvation Army</option>
-                    </select>
 
-            </div>
-                <br>
-                <input type="text" name="Postal Code" id="postalCode" placeholder="Enter your postal code">
-                <div class="text-center">
-                    <button type="button" id="submit">Submit</button>
-                </div>
-        </form>
-            <br><br>
-    </div>
-
-</body>
-<script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8uDqFOpu7IyMmBHJFQtWLjU3kivRTy_o&loading=async&callback=initMap&libraries=marker">
-</script>
-
-<script>
     let map;  
     let geocoder;
     let start;
@@ -96,22 +15,22 @@
         });
   
         
-const customMarker = document.createElement('div');
-customMarker.innerHTML = `
-<img src="https://maps.google.com/mapfiles/kml/paddle/pink-stars.png" 
-style="width: 40px; height: 40px;">
-`;
-let find_location = document.getElementById("findLocation");
-    find_location.addEventListener("click", function() {
-        if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPositionOnMap);
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
-    });
+        //create custom marker
+        const customMarker = document.createElement('div');
+        customMarker.innerHTML = `
+        <img src="https://maps.google.com/mapfiles/kml/paddle/pink-stars.png" 
+        style="width: 40px; height: 40px;">
+        `;
+        let find_location = document.getElementById("findLocation");
+            find_location.addEventListener("click", function() {
+                if(navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPositionOnMap);
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            });
     
-    let start;
-
+    //show user's location on map
     function showPositionOnMap(position){
         start = { lat: position.coords.latitude, lng: position.coords.longitude };
         let user_location = new google.maps.marker.AdvancedMarkerElement({
@@ -122,7 +41,7 @@ let find_location = document.getElementById("findLocation");
         });
     }
     
-    
+    //create directions service and renderer
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
@@ -130,8 +49,10 @@ let find_location = document.getElementById("findLocation");
 
     let getDirections = document.getElementById("getDirections");
 
+    //calculate directions
     getDirections.addEventListener("click", () => calcDirections());
     
+    // Function to calculate directions
     function calcDirections() {
         if (!start) {
         alert("Please set your starting location first by clicking 'Find My Location'.");
@@ -142,6 +63,7 @@ let find_location = document.getElementById("findLocation");
             return;
         }
 
+        //make request to get directions
         const request = {
             origin: start,
             destination: end,
@@ -162,6 +84,7 @@ function createMarker(lat, lng, title, infoContent, address, map) {
         map: map,
         title: title,
     });
+    //create link with onclick event to set destination
     link = `&nbsp;&nbsp;<a href="#" onclick="setDestination(${lat}, ${lng}); return false;">Set Destination</a>`
     makeInfoMarker(marker, infoContent, address, link);
     return marker;
@@ -183,6 +106,7 @@ let salvation_army_marker_1 = createMarker(43.254062, -79.861829, "Salvation Arm
 let salvation_army_marker_2 = createMarker(43.226424, -79.881965, "Salvation Army", contentString3, "879 Upper James St, Hamilton, ON L9C 3A3", map);
 let salvation_army_marker_3 = createMarker(43.235889, -79.758229, "Salvation Army", contentString3, "2500 Barton St E, Hamilton, ON L8E 3K8", map);
 
+// Array of markers for filtering
     let vvmarkers = [
         value_village_marker_1,
         value_village_marker_2,
@@ -200,8 +124,7 @@ let salvation_army_marker_3 = createMarker(43.235889, -79.758229, "Salvation Arm
         salvation_army_marker_3
     ];
     
-    let markers = [];
-    
+//function to get the input address and geocode it, filter, then create a marker    
     function codeAddress(){
     let streetAddress = document.getElementById("streetAddress").value;
     let city = document.getElementById("city").value;
@@ -226,6 +149,7 @@ let salvation_army_marker_3 = createMarker(43.235889, -79.758229, "Salvation Arm
                 });
                 marker.setMap(map);
                 
+                //filter user input marker and push to respective array
                 switch(title){
                     case "Value Village":
                         vvmarkers.push(marker);
@@ -237,6 +161,7 @@ let salvation_army_marker_3 = createMarker(43.235889, -79.758229, "Salvation Arm
                         samarkers.push(marker);
                         break;
                             }
+                            //create link for user input marker to set destination
                             link = `&nbsp;&nbsp;<a href="#" onclick="setDestination(${results[0].geometry.location.lat()}, ${results[0].geometry.location.lng()}); return false;">Set Destination</a>`
 
                             makeInfoMarker(marker, "<h6>" + title + "</h6>", address, link);
@@ -246,32 +171,32 @@ let salvation_army_marker_3 = createMarker(43.235889, -79.758229, "Salvation Arm
                     });
                 }
                 
-                
-                
+                //filter markers based on user selection
                 let geocode = document.getElementById("submit");
                 geocode.addEventListener("click", codeAddress);
                 
+                //only salvation army markers
                     let onlySA = document.getElementById("onlySA");
                     onlySA.addEventListener("click", function() {
                         vvmarkers.forEach(marker => marker.setMap(null));
                         tsmarkers.forEach(marker => marker.setMap(null));
                         samarkers.forEach(marker => marker.setMap(map));
                     });
-                
+                //only talize markers
                     let onlyTS = document.getElementById("onlyTS");
                     onlyTS.addEventListener("click", function() {
                         vvmarkers.forEach(marker => marker.setMap(null));
                         samarkers.forEach(marker => marker.setMap(null));
                         tsmarkers.forEach(marker => marker.setMap(map));
                     });
-                
+                //only value village markers
                     let onlyVV = document.getElementById("onlyVV");
                     onlyVV.addEventListener("click", function() {
                         tsmarkers.forEach(marker => marker.setMap(null));
                         samarkers.forEach(marker => marker.setMap(null));
                         vvmarkers.forEach(marker => marker.setMap(map));
                     });
-                
+                //display all markers
                     let all = document.getElementById("all");   
                     all.addEventListener("click", function() {
                         vvmarkers.forEach(marker => marker.setMap(map));
@@ -280,6 +205,7 @@ let salvation_army_marker_3 = createMarker(43.235889, -79.758229, "Salvation Arm
                     });
                 }
 
+// Function to create an info window for a marker
 function makeInfoMarker(marker, content, address, link) {
     let infoWindow = new google.maps.InfoWindow({
         content: content + address + link
@@ -292,13 +218,16 @@ function makeInfoMarker(marker, content, address, link) {
     
 }
 
+
+//formtaed content for info windows, basic information about each chain
+//value village
 let contentString1 = `
     <div>
         <h6>Value Village</h6>
         <p>Savers Value Village Inc. is a publicly held, for-profit thrift store retailer headquartered in Bellevue, Washington, United States, offering second hand merchandise, with supermajority ownership by private equity firm Ares Management</p>
     </div>
 `;
-
+//talize
 let contentString2 = `
     <div>
         <h6>Talize</h6>
@@ -309,7 +238,7 @@ let contentString2 = `
             and vintage items all under one roof.</p>
     </div>
 `;
-
+//salvation army
 let contentString3 = `
     <div>
         <h6>Salvation Army</h6>
@@ -317,9 +246,7 @@ let contentString3 = `
     </div>
 `;
 
+//function to set end destination to calc route
 function setDestination(lat, lng) {
         end = new google.maps.LatLng(lat, lng);
     }
-</script> 
-
-</html>
