@@ -27,9 +27,9 @@
     
         <div id="getDirections">
             <h5>Get Directions</h5>
-            <button id="setStart">Set Starting Point</button>
-            <button id="setEnd">Set Ending Point</button>
-            <button id="getDirections">Get Directions</button>
+            <button id="setStart" onclick="setStart()">Set Starting Point</button>
+            <button id="setEnd" onclick="setEnd()">Set Ending Point</button>
+            <button id="getDirections" onclick="getDirections()">Get Directions</button>
         </div>
     </div>
     <div id="form">
@@ -327,27 +327,32 @@ let contentString3 = `
     </div>
 `;
 
+directionsService = new google.maps.DirectionsService();
+directionsRenderer = new google.maps.DirectionsRenderer();
+directionsRenderer.setMap(map);
 
- derectionService = new google.maps.DirectionsService();
- directionRenderer = new google.maps.DirectionsRenderer();
+let start = null;
+let end = null;
 
- DirectionsRenderer.setMap(map);
+function setStart() {
 
-    let start = document.getElementById("setStart");
-    let end = document.getElementById("setEnd");
-    let getDirections = document.getElementById("getDirections");
+}
+function setEnd() {
+}
 
+function getDirections() {
     const request = {
         origin: start,
         destination: end,
-        travelMode: "DRIVING"
+        travelMode: "DRIVING", 
     };
+    directionsService.route(request, (result, status) => {
+        if (status == "OK") {
+            directionsRenderer.setDirections(result);
+        }
+    });
+}
 
-directionService.route(request, function(result, status) {
-    if(status == "OK") {
-        directionRenderer.setDirections(result);
-    }
-});
 
 </script> 
 
