@@ -204,39 +204,10 @@ function showPositionOnMap(position){
         salvation_army_marker_2,
         salvation_army_marker_3
     ];
-
-    let onlySA = document.getElementById("onlySA");
-    onlySA.addEventListener("click", function() {
-        vvmarkers.forEach(marker => marker.setMap(null));
-        tsmarkers.forEach(marker => marker.setMap(null));
-        samarkers.forEach(marker => marker.setMap(map));
-    });
-
-    let onlyTS = document.getElementById("onlyTS");
-    onlyTS.addEventListener("click", function() {
-        vvmarkers.forEach(marker => marker.setMap(null));
-        samarkers.forEach(marker => marker.setMap(null));
-        tsmarkers.forEach(marker => marker.setMap(map));
-    });
-
-    let onlyVV = document.getElementById("onlyVV");
-    onlyVV.addEventListener("click", function() {
-        tsmarkers.forEach(marker => marker.setMap(null));
-        samarkers.forEach(marker => marker.setMap(null));
-        vvmarkers.forEach(marker => marker.setMap(map));
-    });
-
-    let all = document.getElementById("all");   
-    all.addEventListener("click", function() {
-        vvmarkers.forEach(marker => marker.setMap(map));
-        tsmarkers.forEach(marker => marker.setMap(map));
-        samarkers.forEach(marker => marker.setMap(map));
-    });
-}
-
-let markers = [];
-
-function codeAddress(){
+    
+    let markers = [];
+    
+    function codeAddress(){
     let streetAddress = document.getElementById("streetAddress").value;
     let city = document.getElementById("city").value;
     let province = document.getElementById("province").value;
@@ -251,25 +222,67 @@ function codeAddress(){
             const userInputLocation= document.createElement('div');
             userInputLocation.innerHTML = `
                 <img src="https://maps.google.com/mapfiles/kml/paddle/purple-stars.png" 
-                     style="width: 40px; height: 40px;">
-            `;
-            let marker = new google.maps.marker.AdvancedMarkerElement({
-                position: results[0].geometry.location,
-                content: userInputLocation,
-                title: title
-            });
-            marker.setMap(map);
-            markers.push(marker);
-
-            makeInfoMarker(marker, "<h6>" + title + "</h6>", address);
-        } else {
-            alert('Geocode was not successful due to: ' + status);
-        }
-    });
-}
-
-let geocode = document.getElementById("submit");
-geocode.addEventListener("click", codeAddress);
+                style="width: 40px; height: 40px;">
+                `;
+                let marker = new google.maps.marker.AdvancedMarkerElement({
+                    position: results[0].geometry.location,
+                    content: userInputLocation,
+                    title: title
+                });
+                marker.setMap(map);
+                
+                switch(title){
+                    case "vv":
+                        vvmarkers.push(marker);
+                        break;
+                    case "ts":
+                        tsmarkers.push(marker);
+                        break;
+                    case "sa":
+                        samarkers.push(marker);
+                        break;
+                            }
+                            
+                            makeInfoMarker(marker, "<h6>" + title + "</h6>", address);
+                        } else {
+                            alert('Geocode was not successful due to: ' + status);
+                        }
+                    });
+                }
+                
+                
+                
+                let geocode = document.getElementById("submit");
+                geocode.addEventListener("click", codeAddress);
+                
+                    let onlySA = document.getElementById("onlySA");
+                    onlySA.addEventListener("click", function() {
+                        vvmarkers.forEach(marker => marker.setMap(null));
+                        tsmarkers.forEach(marker => marker.setMap(null));
+                        samarkers.forEach(marker => marker.setMap(map));
+                    });
+                
+                    let onlyTS = document.getElementById("onlyTS");
+                    onlyTS.addEventListener("click", function() {
+                        vvmarkers.forEach(marker => marker.setMap(null));
+                        samarkers.forEach(marker => marker.setMap(null));
+                        tsmarkers.forEach(marker => marker.setMap(map));
+                    });
+                
+                    let onlyVV = document.getElementById("onlyVV");
+                    onlyVV.addEventListener("click", function() {
+                        tsmarkers.forEach(marker => marker.setMap(null));
+                        samarkers.forEach(marker => marker.setMap(null));
+                        vvmarkers.forEach(marker => marker.setMap(map));
+                    });
+                
+                    let all = document.getElementById("all");   
+                    all.addEventListener("click", function() {
+                        vvmarkers.forEach(marker => marker.setMap(map));
+                        tsmarkers.forEach(marker => marker.setMap(map));
+                        samarkers.forEach(marker => marker.setMap(map));
+                    });
+                }
 
 function makeInfoMarker(marker, content, address) {
     let infoWindow = new google.maps.InfoWindow({
