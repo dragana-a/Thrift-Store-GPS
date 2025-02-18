@@ -66,4 +66,9 @@ button:hover, button:active {
     background-color: rgb(25, 119, 25);
     border: none;
 }
+@media (max-width: 600px) {
+    .resp-head {
+      font-size: 1.5em; 
+    }
 
+}

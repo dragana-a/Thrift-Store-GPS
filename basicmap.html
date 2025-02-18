@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="header">
-    <h1>♻️Shop Second Hand♻️</h1>
+    <h1 class="resp-head">♻️Shop Second Hand♻️</h1>
     <h5>Find all the thirft-shops in the area</h5>
     <p>"Thrifting is important because it helps reduce waste by reusing items that would otherwise go to landfills, saves money by providing affordable options, supports local communities by funding charities through thrift store profits, and allows people to express their unique style through a wider variety of unique finds; essentially, it's a sustainable and budget-friendly way to shop while contributing positively to the environment and society. "</p>
         <div id="btns">
@@ -33,7 +33,7 @@
     </div>
     <div id="form">
         <br>
-        <form action="index.php" method="post">
+        <form class="text-center" method="post">
             <br>
             <h5 class="addressInput">Add An Address</h5>
             <br>
@@ -95,12 +95,7 @@
             mapId: "410e5d7369ae59c7"
         });
   
-        const mohawk_marker = new google.maps.marker.AdvancedMarkerElement({
-    position: { lat: 43.2387, lng: -79.881 },
-    map,
-    title: "Mohawk College"
-});
-
+        
 const customMarker = document.createElement('div');
 customMarker.innerHTML = `
 <img src="https://maps.google.com/mapfiles/kml/paddle/pink-stars.png" 
